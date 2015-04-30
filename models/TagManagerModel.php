@@ -25,13 +25,7 @@ class TagManagerModel extends TagModel
         $group = $this->getGroup();
 
         if ($group) {
-            $url = UrlHelper::getCpUrl('tagmanager/'.$group->handle.'/'.$this->id);
-
-            if (craft()->isLocalized() && $this->locale != craft()->language) {
-                $url .= '/'.$this->locale;
-            }
-
-            return $url;
+            return UrlHelper::getCpUrl('tagmanager/'.$group->handle.'/'.$this->id);
         }
     }
 }
