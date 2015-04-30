@@ -73,6 +73,7 @@ class TagManagerPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
+            'tagmanager'                                          => array('action' => 'tagManager/tagIndex'),
             'tagmanager/(?P<groupHandle>{handle})/new'            => array('action' => 'tagManager/editTag'),
             'tagmanager/(?P<groupHandle>{handle})/(?P<tagId>\d+)' => array('action' => 'tagManager/editTag'),
         );

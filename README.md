@@ -4,7 +4,8 @@ Tag Manager plugin for Craft CMS
 Plugin that allows you to edit and delete tags.
 
 Features:
- - Edit tags including fieldlayout
+ - Create tags (with custom fields)
+ - Edit tags (with custom fields)
  - Delete tags
  
 Important:

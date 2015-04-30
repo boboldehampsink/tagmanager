@@ -16,6 +16,16 @@ namespace Craft;
 class TagManagerController extends BaseController
 {
     /**
+     * Tag index.
+     */
+    public function actionTagIndex()
+    {
+        $variables['groups'] = craft()->tags->getAllTagGroups();
+
+        $this->renderTemplate('tagmanager/_index', $variables);
+    }
+
+    /**
      * Edit a tag.
      *
      * @param array $variables

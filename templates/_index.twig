@@ -1,0 +1,24 @@
+{% extends "_layouts/elementindex" %}
+{% set title = "Tag Manager"|t %}
+{% set elementType = 'TagManager' %}
+
+{% block sidebar %}
+    {% if groups|length %}
+        <div class="buttons">
+            {% if groups|length > 1 %}
+                <div class="btn submit menubtn add icon">{{ "New Tag"|t }}</div>
+                <div class="menu">
+                    <ul>
+                        {% for group in groups %}
+                            <li><a href="{{ url('tagmanager/'~group.handle~'/new') }}">{{ tag.name|t }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <a class="btn submit add icon" href="{{ url('tagmanager/'~groups[0].handle~'/new') }}">{{ "New Tag"|t }}</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
