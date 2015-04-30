@@ -10,7 +10,7 @@
                 <div class="menu">
                     <ul>
                         {% for group in groups %}
-                            <li><a href="{{ url('tagmanager/'~group.handle~'/new') }}">{{ tag.name|t }}</a></li>
+                            <li><a href="{{ url('tagmanager/'~group.handle~'/new') }}">{{ group.name|t }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
