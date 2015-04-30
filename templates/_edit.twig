@@ -1,0 +1,42 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set groupHandle = group.handle %}
+
+{% block content %}
+    <form id="tag-form" method="post" accept-charset="UTF-8" data-saveshortcut="1" data-saveshortcut-redirect="{{ continueEditingUrl }}">
+        {{ getCsrfInput() }}
+        <input type="hidden" name="action" value="tagManager/saveTag">
+        <input type="hidden" name="redirect" value="tagmanager">
+        <input type="hidden" name="groupId" value="{{ group.id }}">
+        {% if tag.id %}<input type="hidden" name="tagId" value="{{ tag.id }}">{% endif %}
+        {% if craft.isLocalized() %}<input type="hidden" name="locale" value="{{ tag.locale }}">{% endif %}
+
+        {{ forms.textField({
+            label: "Title"|t,
+            id: 'title',
+            name: 'title',
+            value: tag.title,
+            errors: tag.getErrors('title'),
+            first: true,
+            autofocus: true,
+            required: true
+        }) }}
+
+        <div>
+            {% for tab in group.getFieldLayout().getTabs() %}
+                <div id="tab{{ loop.index }}"{% if not loop.first %} class="hidden"{% endif %}>
+                    {% include "_includes/fields" with {
+                        fields: tab.getFields(),
+                        element: tag
+                    } only %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="buttons">
+            <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+            <input type="button" class="btn formsubmit" value="{{ 'Delete'|t }}" data-action="tagManager/deleteTag" data-confirm="{{ 'Are you sure you want to delete this tag?'|t }}" data-redirect="tagmanager">
+        </div>
+    </form>
+{% endblock %}
