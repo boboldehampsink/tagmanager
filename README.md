@@ -7,6 +7,10 @@ Features:
  - Create tags (with custom fields)
  - Edit tags (with custom fields)
  - Delete tags
+
+Roadmap:
+ - Localization support
+ - In-line deleting?
  
 Important:
 The plugin's folder should be named "tagmanager"
