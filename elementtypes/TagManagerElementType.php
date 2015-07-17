@@ -15,6 +15,7 @@ namespace Craft;
  */
 class TagManagerElementType extends TagElementType
 {
+
     /**
      * @inheritDoc IElementType::populateElementModel()
      *
@@ -26,4 +27,43 @@ class TagManagerElementType extends TagElementType
     {
         return TagManagerModel::populateModel($row);
     }
+
+    /**
+     * @inheritDoc IElementType::getAvailableActions()
+     *
+     * @param string|null $source
+     *
+     * @return array|null
+     */
+    public function getAvailableActions($source = null)
+    {
+
+      $actions = array();
+
+      // Edit
+      $editAction = craft()->elements->getAction('Edit');
+      $editAction->setParams(array(
+        'label' => Craft::t('Edit tag'),
+      ));
+      $actions[] = $editAction;
+
+      // Delete
+      $deleteAction = craft()->elements->getAction('Delete');
+      $deleteAction->setParams(array(
+        'confirmationMessage' => Craft::t('Are you sure you want to delete the selected tags?'),
+        'successMessage'      => Craft::t('Tags deleted.'),
+      ));
+      $actions[] = $deleteAction;
+
+      // Allow plugins to add additional actions
+      $allPluginActions = craft()->plugins->call('addTagManagerActions', array($source), true);
+
+      foreach ($allPluginActions as $pluginActions)
+      {
+        $actions = array_merge($actions, $pluginActions);
+      }
+
+      return $actions;
+    }
+
 }
