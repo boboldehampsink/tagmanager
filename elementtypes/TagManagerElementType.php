@@ -28,6 +28,28 @@ class TagManagerElementType extends TagElementType
         return TagManagerModel::populateModel($row);
     }
 
+    // Element index methods
+    // -------------------------------------------------------------------------
+
+    /**
+     * @inheritDoc IElementType::defineTableAttributes()
+     *
+     * @param string|null $source
+     *
+     * @return array
+     */
+    public function defineTableAttributes($source = null)
+    {
+      $attributes = array(
+        'title' => Craft::t('Title'),
+      );
+
+      // Allow plugins to modify the attributes
+      craft()->plugins->call('modifyTagManagerTableAttributes', array(&$attributes, $source));
+
+      return $attributes;
+    }
+
     /**
      * @inheritDoc IElementType::getAvailableActions()
      *
