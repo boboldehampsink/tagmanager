@@ -15,7 +15,6 @@ namespace Craft;
  */
 class TagManagerElementType extends TagElementType
 {
-
     /**
      * @inheritDoc IElementType::populateElementModel()
      *
@@ -40,35 +39,31 @@ class TagManagerElementType extends TagElementType
      */
     public function getAvailableActions($source = null)
     {
+        $actions = array();
 
-      $actions = array();
+        // Edit
+        $editAction = craft()->elements->getAction('Edit');
+        $editAction->setParams(array(
+            'label' => Craft::t('Edit tag'),
+        ));
+        $actions[] = $editAction;
 
-      // Edit
-      $editAction = craft()->elements->getAction('Edit');
-      $editAction->setParams(array(
-        'label' => Craft::t('Edit tag'),
-      ));
-      $actions[] = $editAction;
+        // Delete
+        $deleteAction = craft()->elements->getAction('Delete');
+        $deleteAction->setParams(array(
+            'confirmationMessage' => Craft::t('Are you sure you want to delete the selected tags?'),
+            'successMessage'      => Craft::t('Tags deleted.'),
+        ));
+        $actions[] = $deleteAction;
 
-      // Delete
-      $deleteAction = craft()->elements->getAction('Delete');
-      $deleteAction->setParams(array(
-        'confirmationMessage' => Craft::t('Are you sure you want to delete the selected tags?'),
-        'successMessage'      => Craft::t('Tags deleted.'),
-      ));
-      $actions[] = $deleteAction;
+        // Allow plugins to add additional actions
+        $allPluginActions = craft()->plugins->call('addTagManagerActions', array($source), true);
+        foreach ($allPluginActions as $pluginActions) {
+            $actions = array_merge($actions, $pluginActions);
+        }
 
-      // Allow plugins to add additional actions
-      $allPluginActions = craft()->plugins->call('addTagManagerActions', array($source), true);
-
-      foreach ($allPluginActions as $pluginActions)
-      {
-        $actions = array_merge($actions, $pluginActions);
-      }
-
-      return $actions;
+        return $actions;
     }
-
 
     /**
      * @inheritDoc IElementType::defineSortableAttributes()
@@ -77,14 +72,14 @@ class TagManagerElementType extends TagElementType
      */
     public function defineSortableAttributes()
     {
-      $attributes = array(
-        'title'      => Craft::t('Title')
-      );
+        $attributes = array(
+            'title' => Craft::t('Title'),
+        );
 
-      // Allow plugins to modify the attributes
-      craft()->plugins->call('modifyTagManagerSortableAttributes', array(&$attributes));
+        // Allow plugins to modify the attributes
+        craft()->plugins->call('modifyTagManagerSortableAttributes', array(&$attributes));
 
-      return $attributes;
+        return $attributes;
     }
 
     /**
@@ -96,16 +91,15 @@ class TagManagerElementType extends TagElementType
      */
     public function defineTableAttributes($source = null)
     {
-      $attributes = array(
-        'title' => Craft::t('Title'),
-      );
+        $attributes = array(
+            'title' => Craft::t('Title'),
+        );
 
-      // Allow plugins to modify the attributes
-      craft()->plugins->call('modifyTagManagerTableAttributes', array(&$attributes, $source));
+        // Allow plugins to modify the attributes
+        craft()->plugins->call('modifyTagManagerTableAttributes', array(&$attributes, $source));
 
-      return $attributes;
+        return $attributes;
     }
-
 
     /**
      * @inheritDoc IElementType::getTableAttributeHtml()
@@ -117,19 +111,15 @@ class TagManagerElementType extends TagElementType
      */
     public function getTableAttributeHtml(BaseElementModel $element, $attribute)
     {
-      // Give plugins a chance to set this
-      $pluginAttributeHtml = craft()->plugins->callFirst('getTagManagerTableAttributeHtml', array($element, $attribute), true);
+        // Give plugins a chance to set this
+        $pluginAttributeHtml = craft()->plugins->callFirst('getTagManagerTableAttributeHtml', array($element, $attribute), true);
 
-      // Return the plugins version, if there is one
-      if ($pluginAttributeHtml !== null)
-      {
-        return $pluginAttributeHtml;
-      }
+        // Return the plugins version, if there is one
+        if ($pluginAttributeHtml !== null) {
+            return $pluginAttributeHtml;
+        }
 
-      // Default to the base table html
-      return parent::getTableAttributeHtml($element, $attribute);
-
+        // Default to the base table html
+        return parent::getTableAttributeHtml($element, $attribute);
     }
-
-
 }
