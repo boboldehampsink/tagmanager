@@ -17,6 +17,11 @@ The plugin's folder should be named "tagmanager"
 
 Changelog
 =================
+###0.2.0###
+ - Added delete and edit element actions (thanks to joshangell)
+ - Added hooks to allow plugins to modify the element index html, table and sortable attributes (thanks to joshangell)
+ - Only show delete button on existing tags (thanks to joshangell)
+
 ###0.1.0###
  - Initial push to GitHub
  
