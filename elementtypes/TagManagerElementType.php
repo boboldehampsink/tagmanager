@@ -56,6 +56,10 @@ class TagManagerElementType extends TagElementType
         ));
         $actions[] = $deleteAction;
 
+        // Merge
+        $mergeAction = craft()->elements->getAction('TagManager_Merge');
+        $actions[] = $mergeAction;
+
         // Allow plugins to add additional actions
         $allPluginActions = craft()->plugins->call('addTagManagerActions', array($source), true);
         foreach ($allPluginActions as $pluginActions) {
